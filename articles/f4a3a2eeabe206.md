@@ -12,20 +12,23 @@ GitHub の Organizations 内にあるリポジトリが増えてきたので、�
 
 ## Script
 
-+ `PREFIX_*`: プレフィックス
-+ `YOUR_ORGANIZATION`: Organizations
++ `OUTPUT_FILE`: 出力ファイル名
++ `PREFIXES`: プレフィックス群
++ `ORGANIZATION`: Organizations 名
 
 ```shell
 #!/bin/bash
 
 set -euCo pipefail
 
+# constants
 readonly OUTPUT_FILE="repo_table.txt"
+readonly PREFIXES=("PREFIX_0" "PREFIX_1" "PREFIX_2")
+readonly ORGANIZATION="YOUR_ORGANIZATION"
 
 function list_repo() {
-  local -r prefixes=("PREFIX_0", "PREFIX_1", "PREFIX_2")
   local -r query='query($endCursor: String) {
-    organization(login: "YOUR_ORGANIZATION") {
+    organization(login: "'"${ORGANIZATION}"'") {
       repositories(first: 100, after: $endCursor) {
         pageInfo {
           endCursor
@@ -40,7 +43,7 @@ function list_repo() {
   }'
 
   local -r result=$(gh api graphql -F query="$query" --paginate)
-  for prefix in "${prefixes[@]}"; do
+  for prefix in "${PREFIXES[@]}"; do
     echo "${result}" |
       jq -r '.data.organization.repositories.nodes[] | select(.name | startswith("'"${prefix}"'")) | .name + " " + (.isArchived | tostring)' |
       sort
@@ -58,7 +61,7 @@ function main() {
     else
       archived=""
     fi
-    echo "| ${name} | https://github.com/YOUR_ORGANIZATION/${name} | | ${archived} |"
+    echo "| ${name} | https://github.com/${ORGANIZATION}/${name} | | ${archived} |"
   done < <(list_repo)
 }
 
