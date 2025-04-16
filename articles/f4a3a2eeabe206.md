@@ -12,9 +12,9 @@ GitHub の Organizations 内にあるリポジトリが増えてきたので、�
 
 ## Script
 
-+ `OUTPUT_FILE`: 出力ファイル名
-+ `PREFIXES`: プレフィックス群
-+ `ORGANIZATION`: Organizations 名
+- `OUTPUT_FILE`: 出力ファイル名
+- `PREFIXES`: プレフィックス群
+- `ORGANIZATION`: Organizations 名
 
 ```shell
 #!/bin/bash
@@ -72,6 +72,6 @@ fi
 
 ## Future Prospect
 
-+ Description 列は手動で書くことを想定しているが、リポジトリの About から自動で取得したい
-  + ただし、そのためにはリポジトリ作成のルール決めをする必要がある
-+ 一覧の更新には手動で上記スクリプトを叩く必要があるが、自動実行にしたい
+- Description 列は手動で書くことを想定しているが、リポジトリの About から自動で取得したい
+  - ただし、そのためにはリポジトリ作成のルール決めをする必要がある
+- 一覧の更新には手動で上記スクリプトを叩く必要があるが、自動実行にしたい
